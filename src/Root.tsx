@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Layout } from './components/Layout/Layout';
 import { Loader } from './components/Loader/Loader';
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
 
 // Lazy load pages for better performance
 const HomePage = lazy(() =>
@@ -32,6 +33,7 @@ const ProductDetailsPage = lazy(() =>
 
 export const Root = () => (
   <Router>
+    <ScrollToTop />
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Layout />}>

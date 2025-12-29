@@ -12,8 +12,6 @@ import { ProductsSlider } from '../../components/ProductsSlider/ProductsSlider';
 import { ProductContentTop } from './components/ProductContentTop';
 import { ProductContentBottom } from './components/ProductContentBottom';
 
-
-
 const getSuggestedProducts = (
   allProducts: Product[],
   currentCategory: string,

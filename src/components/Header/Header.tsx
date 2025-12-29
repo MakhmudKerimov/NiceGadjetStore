@@ -1,4 +1,10 @@
-import { Link, NavLink, useLocation, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 import { navLinks } from '../../constants/navLinks';
 import { GlobalContext } from '../../context/GlobalContext';
 import {
@@ -24,14 +30,24 @@ const getActiveItem = ({ isActive }: { isActive: boolean }) =>
 const getActiveIcon = ({ isActive }: { isActive: boolean }) =>
   classNames('header__icon', { 'header__icon--active': isActive });
 
+const CATEGORY_ROUTES = ['phones', 'tablets', 'accessories'] as const;
+
 export const Header: FC = () => {
-  const { theme, toggleTheme, toggleMenu, isMenuOpen, favorites, cart } =
-    useContext(GlobalContext);
+  const {
+    theme,
+    toggleTheme,
+    toggleMenu,
+    isMenuOpen,
+    favorites,
+    cart,
+    allProducts,
+  } = useContext(GlobalContext);
 
   const [query, setQuery] = useState('');
 
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const isShowSearch = useMemo(
     () =>
@@ -44,14 +60,46 @@ export const Header: FC = () => {
   const applyQuery = useMemo(
     () =>
       debounce((value: string) => {
-        setSearchParams(() => getSearchWith(searchParams, { query: value }));
+        const normalizedQuery = value.toLowerCase();
+
+        const currentCategory = location.pathname.split('/')[1];
+
+        const productsInCurrentCategory = allProducts.filter(
+          p => p.category === currentCategory,
+        );
+
+        const hasResultsInCurrent = productsInCurrentCategory.some(p =>
+          p.name.toLowerCase().includes(normalizedQuery),
+        );
+
+        if (hasResultsInCurrent) {
+          setSearchParams(getSearchWith(searchParams, { query: value }));
+
+          return;
+        }
+
+        for (const category of CATEGORY_ROUTES) {
+          const hasResultsInOther = allProducts.some(
+            p =>
+              p.category === category &&
+              p.name.toLowerCase().includes(normalizedQuery),
+          );
+
+          if (hasResultsInOther) {
+            navigate(`/${category}?query=${encodeURIComponent(value)}`);
+
+            return;
+          }
+        }
+
+        setSearchParams(getSearchWith(searchParams, { query: value }));
       }, 500),
-    [searchParams, setSearchParams],
+    [allProducts, location.pathname, navigate, searchParams, setSearchParams],
   );
 
   useEffect(() => {
-    setQuery('');
-  }, [location.pathname]);
+    return () => applyQuery.cancel();
+  }, [applyQuery]);
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

@@ -40,7 +40,7 @@ export const ShopByCategory = () => {
           <Link to="/phones" className="shopByCategory__link">
             <section className="shopByCategory__block">
               <img
-                src="/img/Category for phones.png"
+                src="img/Category for phones.png"
                 alt="Category Phones"
                 className="shopByCategory__block-image"
               />
@@ -53,7 +53,7 @@ export const ShopByCategory = () => {
           <Link to="/tablets" className="shopByCategory__link">
             <section className="shopByCategory__block">
               <img
-                src="/img/Category for tablets.png"
+                src="img/Category for tablets.png"
                 alt="Category Tablets"
                 className="shopByCategory__block-image"
               />

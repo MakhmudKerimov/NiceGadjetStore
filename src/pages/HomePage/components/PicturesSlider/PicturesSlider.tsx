@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 export const PicturesSlider = () => {
   const images = [
-    '/img/phones/apple-iphone-14/midnight/00.webp',
-    '/img/phones/apple-iphone-14/purple/00.webp',
-    '/img/phones/apple-iphone-14/yellow/00.webp',
+    'img/phones/apple-iphone-14/midnight/00.webp',
+    'img/phones/apple-iphone-14/purple/00.webp',
+    'img/phones/apple-iphone-14/yellow/00.webp',
   ];
 
   const imagesUrl: Record<number, string> = {

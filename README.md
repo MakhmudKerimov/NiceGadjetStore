@@ -1,6 +1,6 @@
 # NiceGadjetStore Landing Page
 
-- [DEMO LINK](https://github.com/MakhmudKerimov/NiceGadjetStore/)
+- [DEMO LINK](https://MakhmudKerimov.github.io/NiceGadjetStore/)
 
 ## Description
 
